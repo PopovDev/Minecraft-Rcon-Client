@@ -9,6 +9,7 @@ namespace Rcon
     {
         static async System.Threading.Tasks.Task Main(string[] args)
         {
+
             var c = new RCON(IPAddress.Parse("37.57.26.218"), 25575, "2281337");
             await c.ConnectAsync();
             while (true)
