@@ -8,7 +8,7 @@ namespace Rcon
 {
     class IniFile
     {
-        string Path; //Имя файла.
+        string Path; 
 
         [DllImport("kernel32")] 
         static extern long WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
