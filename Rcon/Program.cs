@@ -12,21 +12,21 @@ namespace Rcon
         static IniFile INI = new IniFile("config.ini");
         static async Task Main(string[] args)
         {
-            if (!INI.KeyExists("IP", "Connect"))
-            {
-                INI.Write("Connect", "IP", "");
-                INI.Write("Connect", "PORT", "");
-                INI.Write("Connect", "PASS", "");
-            }
+            if (!INI.KeyExists("IP", "Connect")) INI.Write("Connect", "IP", "");
+            if (!INI.KeyExists("PORT", "Connect")) INI.Write("Connect", "PORT", "");
+            if (!INI.KeyExists("PASS", "Connect")) INI.Write("Connect", "PASS", "");
+            
             Console.Write($"Enter IP ({INI.ReadINI("Connect", "IP")}):");
             var ReadIP = Console.ReadLine();
-            if (!string.IsNullOrEmpty(ReadIP)) INI.Write("Connect", "IP", ReadIP);
             Console.Write($"Enter Port ({INI.ReadINI("Connect", "PORT")}):");
             var ReadPort = Console.ReadLine();
-            if (!string.IsNullOrEmpty(ReadPort)) INI.Write("Connect", "PORT", ReadPort);
             Console.Write($"Enter Password ({INI.ReadINI("Connect", "PASS")}):");
             var ReadPASS = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(ReadIP)) INI.Write("Connect", "IP", ReadIP);      
+            if (!string.IsNullOrEmpty(ReadPort)) INI.Write("Connect", "PORT", ReadPort);      
             if (!string.IsNullOrEmpty(ReadPASS)) INI.Write("Connect", "PASS", ReadPASS);
+
             var c = new RCON(IPAddress.Parse(INI.ReadINI("Connect", "IP")), ushort.Parse(INI.ReadINI("Connect", "PORT")), INI.ReadINI("Connect", "PASS"));
             try
             {
@@ -35,15 +35,15 @@ namespace Rcon
             catch (Exception)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Connection Error");
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Press key to exit");
+                Console.WriteLine("Connection Error \n Press key to exit");
                 Console.ReadLine();
                 Environment.Exit(1);
             }
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Connected");
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.White;
                 var text = (await c.SendCommandAsync(Console.ReadLine())).Split("§");
                 if (text.Count() <= 1) Console.Write(text.First());
                 else
@@ -54,7 +54,6 @@ namespace Rcon
                         Console.Write(t.Substring(1));
                         Console.ForegroundColor = ConsoleColor.White;
                     }
-
                 Console.WriteLine();
             }
 
