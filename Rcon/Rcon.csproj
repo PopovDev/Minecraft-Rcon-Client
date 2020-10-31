@@ -3,8 +3,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>Rcon server</AssemblyName>
+    <AssemblyName>Rcon Connect</AssemblyName>
     <RootNamespace>Rcon</RootNamespace>
+    <ApplicationIcon>database.ico</ApplicationIcon>
+    <Version>1.3.2</Version>
+    <Authors>Popov Dev</Authors>
+    <Company>Popov Dev</Company>
   </PropertyGroup>
 
   <ItemGroup>
