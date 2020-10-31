@@ -1,5 +1,6 @@
 ﻿using CoreRCON;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Rcon
             }
             Console.Write($"Enter IP ({INI.ReadINI("Connect", "IP")}):");
             var ReadIP = Console.ReadLine();
-            if(!string.IsNullOrEmpty(ReadIP)) INI.Write("Connect", "IP", ReadIP);
+            if (!string.IsNullOrEmpty(ReadIP)) INI.Write("Connect", "IP", ReadIP);
             Console.Write($"Enter Port ({INI.ReadINI("Connect", "PORT")}):");
             var ReadPort = Console.ReadLine();
             if (!string.IsNullOrEmpty(ReadPort)) INI.Write("Connect", "PORT", ReadPort);
@@ -33,7 +34,10 @@ namespace Rcon
             }
             catch (Exception)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Connection Error");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Press key to exit");
                 Console.ReadLine();
                 Environment.Exit(1);
             }
@@ -46,34 +50,7 @@ namespace Rcon
                     foreach (var t in text)
                     {
                         if (t.Length < 1) continue;
-                        if (int.TryParse(t[0].ToString(), out int csas))
-                        {
-                            Console.ForegroundColor = (ConsoleColor)csas;
-                        }
-                        else
-                        {
-                            switch (t[0].ToString())
-                            {
-                                case "a":
-                                    Console.ForegroundColor = ConsoleColor.Green;
-                                    break;
-                                case "b":
-                                    Console.ForegroundColor = ConsoleColor.Blue;
-                                    break;
-                                case "c":
-                                    Console.ForegroundColor = ConsoleColor.Red;
-                                    break;
-                                case "d":
-                                    Console.ForegroundColor = ConsoleColor.Magenta;
-                                    break;
-                                case "e":
-                                    Console.ForegroundColor = ConsoleColor.Yellow;
-                                    break;
-                                case "f":
-                                    Console.ForegroundColor = ConsoleColor.White;
-                                    break;
-                            }
-                        }
+                        Console.ForegroundColor = (ConsoleColor)int.Parse(t[0].ToString(), NumberStyles.HexNumber);
                         Console.Write(t.Substring(1));
                         Console.ForegroundColor = ConsoleColor.White;
                     }
